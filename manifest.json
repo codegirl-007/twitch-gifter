@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Twitch Chat Watcher",
+  "version": "1.0",
+  "description": "Logs '!codegirl' messages from Twitch chat.",
+  "permissions": [],
+  "host_permissions": [
+    "https://*.twitch.tv/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://*.twitch.tv/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
