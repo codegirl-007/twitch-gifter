@@ -15,11 +15,25 @@ function watchTwitchChat() {
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       mutation.addedNodes.forEach((node) => {
-          if (node.nodeType === Node.ELEMENT_NODE) {
-            const messageElement = node.querySelector('[data-a-target="chat-message-text"]');
-            if (messageElement && messageElement.innerText.includes("sucking nut milks involves sucking on nuts.")) {
-              console.log(`[!codegirl] !codegirl found: "${messageElement.innerText}"`);
-              clickGiftSubscription()
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          const messageElement = node.querySelector('[data-a-target="chat-line-message"]');
+
+            if (messageElement) {
+
+              const user = messageElement.getAttribute('data-a-user');
+              console.log(`[!codegirl] username: ${user}`);
+              const text = messageElement.querySelector('[data-a-target="chat-message-text"]').textContent ?? '';
+
+              if (messageElement && text.includes("sucking nut milks involves sucking on nuts.") && user === 'nightbot') {
+                console.log(`[!codegirl] !codegirl found: "${text} by "${user}"`);
+                clickGiftSubscription()
+              }
+
+              const cheers = text.match(/cheer[0-9]+/) || [];
+              const hasCheers = cheers.length > 0;
+              if (messageElement && text.includes("!codegirl") && hasCheers) {
+                clickGiftSubscription()
+              }
             }
           }
       });
@@ -48,7 +62,7 @@ function clickGiftSubscription() {
   console.log("[!codegirl] Clicked the 'Gift a Sub' button.");
 
   setTimeout(function() {
-    singleGiftSubButton = document.querySelector('[data-a-target="gift-button-oneclick-1"]');
+    const singleGiftSubButton = document.querySelector('[data-a-target="gift-button-oneclick-1"]');
 
     if (!singleGiftSubButton) {
       console.log('[!codegirl] can\'t find the single gifted sub button');
@@ -64,13 +78,11 @@ function clickGiftSubscription() {
     payNowButton = document.querySelector('[data-a-target="one-click-checkout-pay-button"] button')
 
     if (payNowButton) {
-      payNowButton.click()
+      //payNowButton.click()
       console.log('[!codegirl] final button clicked!')
       return;
     }
   }, 2000);
-  
-  
 }
 
 
