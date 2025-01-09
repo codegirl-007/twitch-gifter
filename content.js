@@ -78,7 +78,7 @@ function clickGiftSubscription() {
     payNowButton = document.querySelector('[data-a-target="one-click-checkout-pay-button"] button')
 
     if (payNowButton) {
-      //payNowButton.click()
+      payNowButton.click()
       console.log('[!codegirl] final button clicked!')
       return;
     }
